@@ -1,0 +1,72 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+// Top level, comments to be made on posts
+model Post {
+    id        String     @id @default(uuid())
+    title     String
+    body      String
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @default(now()) @updatedAt
+    comments  Comment[]
+    user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String
+    likes     PostLike[]
+}
+
+// may need to add auth id from provider later
+// each user has a list of comments and likes they have made
+model User {
+    id           String        @id @default(uuid())
+    name         String
+    comments     Comment[]
+    commentLikes CommentLike[]
+    posts        Post[]
+    PostLikes    PostLike[]
+}
+
+// To allow for nested comments, each comment can has parentId and optional children. A child comment will have a parentId of it's parent comment
+// onDelete cascade will delete all children if that particular post/user/comment is deleted
+model Comment {
+    id        String        @id @default(uuid())
+    message   String
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @updatedAt
+    user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId    String
+    post      Post          @relation(fields: [postId], references: [id], onDelete: Cascade)
+    postId    String
+    parent    Comment?      @relation("ParentChild", fields: [parentId], references: [id], onDelete: Cascade)
+    children  Comment[]     @relation("ParentChild")
+    parentId  String?
+    likes     CommentLike[]
+}
+
+// ID is a combination of userId and commentId as they are always unique to a like
+model CommentLike {
+    user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+    userId    String
+    commentId String
+
+    @@id([userId, commentId])
+}
+
+model PostLike {
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    Post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+    userId String
+    postId String
+
+    @@id([userId, postId])
+}
