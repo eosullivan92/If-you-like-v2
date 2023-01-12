@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { FaRegHeart, FaHeart, FaRegCommentAlt } from 'react-icons/fa';
 import { IconBtn } from './IconButton';
 import { usePostList } from '../context/PostListContext';
@@ -23,8 +24,8 @@ export const PostList = () => {
 
   const onPostCreate = (title: string, body: string) => {
     return createPostFn.execute({ title, body }).then((post: PostTitleType) => {
-      createLocalPost(post);
-      handleCreatePostActive();
+      createLocalPost!(post);
+      handleCreatePostActive!();
     });
   };
 
@@ -32,7 +33,7 @@ export const PostList = () => {
     return togglePostLikeFn
       .execute(id)
       .then(({ addLike }: { addLike: boolean }) => {
-        toggleLocalPostLike(id, addLike);
+        toggleLocalPostLike!(id, addLike);
       });
   };
 

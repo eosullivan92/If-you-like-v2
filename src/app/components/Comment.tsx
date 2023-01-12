@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { CommentType, CommentProps } from '../types/types';
 import { CommentForm } from './CommentForm';
 import { useState } from 'react';
@@ -38,7 +39,7 @@ export default function Comment({
     deleteLocalComment,
     toggleLocalCommentLike,
   } = usePost();
-  const childComments = getReplies(id);
+  const childComments = getReplies!(id);
   //   const currentUser = useUser();
   const createCommentFn = useAsyncFn(createComment);
   const updateCommentFn = useAsyncFn(updateComment);
@@ -54,7 +55,7 @@ export default function Comment({
       })
       .then((comment: CommentType) => {
         setIsReplying(false);
-        createLocalComment(comment);
+        createLocalComment!(comment);
       });
   };
 
@@ -64,7 +65,7 @@ export default function Comment({
       .then((comment: CommentType) => {
         if (comment) {
           setIsEditingComment(false);
-          updateLocalComment(id, comment.message);
+          updateLocalComment!(id, comment.message);
         }
       });
   };
@@ -73,7 +74,7 @@ export default function Comment({
     return deleteCommentFn
       .execute({ postId: post?.id, id })
       .then(({ id }: { id: string }) => {
-        deleteLocalComment(id);
+        deleteLocalComment!(id);
       });
   };
 
@@ -81,7 +82,7 @@ export default function Comment({
     return toggleCommentLikeFn
       .execute({ postId: post?.id, id })
       .then(({ addLike }: { addLike: boolean }) =>
-        toggleLocalCommentLike(id, addLike)
+        toggleLocalCommentLike!(id, addLike)
       );
   };
   return (
