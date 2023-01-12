@@ -54,7 +54,7 @@ export function PostListProvider({ children }: ChildrenProps) {
 
   const toggleLocalPostLike = (id: string, addLike: boolean) => {
     setPosts((prevPosts) => {
-      return prevPosts.map((post) => {
+      return prevPosts?.map((post) => {
         if (id === post.id) {
           if (addLike) {
             return {

@@ -31,13 +31,13 @@ export function useAsyncInternal(
   const [loading, setLoading] = useState<boolean>(initialLoading);
   const [error, setError] = useState<string>();
   const [value, setValue] = useState<
-    PostTitleType[] | PostType[] | CommentType[] | undefined
+    PostType | PostType[] | PostTitleType[] | CommentType | undefined
   >(undefined);
 
   const execute = useCallback((...params) => {
     setLoading(true);
     return func(...params)
-      .then((data: PostType[]) => {
+      .then((data: PostType) => {
         setValue(data);
         setError(undefined);
         return data;

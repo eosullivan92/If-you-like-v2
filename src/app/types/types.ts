@@ -27,7 +27,7 @@ export type PostType = {
   id: string;
   title: string;
   body: string;
-  comments?: CommentType[];
+  comments: CommentType[];
 };
 
 export type PostTitleType = {
@@ -78,7 +78,7 @@ export type CommentProps = {
 
 export type CommentFormProps = {
   loading: boolean;
-  error: string;
+  error: string | undefined;
   onSubmit: (message: string) => Promise<CommentType>;
   autoFocus: boolean;
   initialValue?: string;

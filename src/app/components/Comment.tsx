@@ -60,16 +60,18 @@ export default function Comment({
 
   const onCommentUpdate = (message: string) => {
     return updateCommentFn
-      .execute({ postId: post.id, message, id })
+      .execute({ postId: post?.id, message, id })
       .then((comment: CommentType) => {
-        setIsEditingComment(false);
-        updateLocalComment(id, comment.message);
+        if (comment) {
+          setIsEditingComment(false);
+          updateLocalComment(id, comment.message);
+        }
       });
   };
 
   const onCommentDelete = () => {
     return deleteCommentFn
-      .execute({ postId: post.id, id })
+      .execute({ postId: post?.id, id })
       .then(({ id }: { id: string }) => {
         deleteLocalComment(id);
       });

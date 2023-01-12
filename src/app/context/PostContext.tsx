@@ -11,6 +11,10 @@ import {
   ChildrenProps,
 } from '../types/types';
 
+type IdParams = {
+  id: string;
+};
+
 const PostContext = React.createContext<Partial<PostContextType>>({});
 
 export function usePost() {
@@ -18,9 +22,8 @@ export function usePost() {
 }
 
 export function PostProvider({ children }: ChildrenProps) {
-  const { id } = useParams();
+  const { id } = useParams<IdParams>();
   const { posts } = usePostList();
-
   const { value: post } = useAsync(() => getPost(id), [id, posts]);
   const [comments, setComments] = useState<CommentType[]>([]);
 
