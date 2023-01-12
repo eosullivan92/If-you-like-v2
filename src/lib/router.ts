@@ -15,18 +15,18 @@ router.get('/', async (_req, res) => {
   res.send(data);
 });
 
-// const COMMENT_SELECT_FIELDS = {
-//   id: true,
-//   message: true,
-//   parentId: true,
-//   createdAt: true,
-//   user: {
-//     select: {
-//       id: true,
-//       name: true,
-//     },
-//   },
-// };
+const COMMENT_SELECT_FIELDS = {
+  id: true,
+  message: true,
+  parentId: true,
+  createdAt: true,
+  user: {
+    select: {
+      id: true,
+      name: true,
+    },
+  },
+};
 
 router.get('/posts', async (_req, res) => {
   const data = await prisma.post
@@ -61,6 +61,51 @@ router.get('/posts', async (_req, res) => {
       return error.message;
     });
 
+  res.json(data);
+});
+
+router.get('/posts/:id', async (req, res) => {
+  const data = await prisma.post.findUnique({
+    where: {
+      id: req.params.id,
+    },
+    select: {
+      body: true,
+      title: true,
+      comments: {
+        orderBy: {
+          createdAt: 'desc',
+        },
+        select: {
+          ...COMMENT_SELECT_FIELDS,
+          _count: { select: { likes: true } },
+        },
+      },
+    },
+  });
+  // .then(async (post) => {
+  //   const likes = await prisma.commentLike.findMany({
+  //     where: {
+  //       userId: req.cookies.userId,
+  //       //returns id's of all comments
+  //       commentId: {
+  //         in: post?.comments.map((comment) => comment.id),
+  //       },
+  //     },
+  //   });
+  //   return {
+  //     ...post,
+  //     comments: post?.comments.map((comment) => {
+  //       const { _count, ...commentFields } = comment;
+  //       return {
+  //         ...commentFields,
+  //         // boolean - if like in this list has comment id that matches the current comment id.
+  //         likedByMe: likes.some((like) => like.commentId === comment.id),
+  //         likeCount: _count.likes,
+  //       };
+  //     }),
+  //   };
+  // });
   res.json(data);
 });
 

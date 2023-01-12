@@ -1,17 +1,12 @@
 import { makeRequest } from './makeRequest';
 import { PostFormType, PostType } from '../types/types';
-import axios from 'axios';
 
 export function getPosts() {
-  //   return makeRequest('posts');
-  return axios
-    .get('/api/posts')
-    .then((res) => res.data)
-    .catch((error) => error.message);
+  return makeRequest('posts');
 }
 
 export function getPost(id: string) {
-  return makeRequest(`/posts/${id}`);
+  return makeRequest(`posts/${id}`);
 }
 
 export function createPost(post: PostFormType) {

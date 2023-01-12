@@ -19,7 +19,7 @@ const api = axios.create({
 });
 
 export function makeRequest(url: string, options?: RequestOptions) {
-  return api(`/api/v1/${url}`, options)
+  return api(`/api/${url}`, options)
     .then((res) => res.data)
     .catch((error) => {
       console.log(error.message);
