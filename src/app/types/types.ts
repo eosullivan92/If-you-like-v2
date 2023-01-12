@@ -15,7 +15,7 @@ export type PostListContextType = {
 export type PostContextType = {
   post: PostType;
   rootComments: CommentType[];
-  getReplies: (parentId: string) => CommentType[];
+  getReplies: (parentId: string) => CommentType[] | [];
   createLocalComment: (comment: CommentType) => void;
   updateLocalComment: (id: string, comment: string) => void;
   deleteLocalComment: (id: string) => void;
