@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import react from '@vitejs/plugin-react';
 import EnvironmentPlugin from 'vite-plugin-environment';
 dotenv.config();
 
@@ -9,7 +10,7 @@ const { PORT = 3001 } = process.env;
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [reactRefresh(), EnvironmentPlugin('all')],
+  plugins: [react(), reactRefresh(), EnvironmentPlugin('all')],
   server: {
     proxy: {
       '/api/': {

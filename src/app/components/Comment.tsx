@@ -7,7 +7,7 @@ import { FaHeart, FaReply, FaEdit, FaTrash, FaRegHeart } from 'react-icons/fa';
 import { IconBtn } from './IconButton';
 import CommentList from './CommentList';
 // import { useUser } from '../hooks/useUser'
-import { useAsyncFn } from '../hooks/useAsync';
+import { useAsync, useAsyncFn } from '../hooks/useAsync';
 import {
   createComment,
   deleteComment,
@@ -43,13 +43,13 @@ export default function Comment({
   //   const currentUser = useUser();
   const createCommentFn = useAsyncFn(createComment);
   const updateCommentFn = useAsyncFn(updateComment);
-  const deleteCommentFn = useAsyncFn(deleteComment);
-  const toggleCommentLikeFn = useAsyncFn(toggleCommentLike);
+  const deleteCommentFn = useAsync(deleteComment);
+  const toggleCommentLikeFn = useAsync(toggleCommentLike);
 
   const onCommentReply = (message: string) => {
     return createCommentFn
       .execute({
-        postId: post?.id,
+        postId: post!.id,
         message,
         parentId: id,
       })
@@ -61,7 +61,7 @@ export default function Comment({
 
   const onCommentUpdate = (message: string) => {
     return updateCommentFn
-      .execute({ postId: post?.id, message, id })
+      .execute({ postId: post!.id, message, id })
       .then((comment: CommentType) => {
         if (comment) {
           setIsEditingComment(false);
@@ -72,7 +72,7 @@ export default function Comment({
 
   const onCommentDelete = () => {
     return deleteCommentFn
-      .execute({ postId: post?.id, id })
+      .execute({ postId: post!.id, id })
       .then(({ id }: { id: string }) => {
         deleteLocalComment!(id);
       });
@@ -80,7 +80,7 @@ export default function Comment({
 
   const ontoggleCommentLike = () => {
     return toggleCommentLikeFn
-      .execute({ postId: post?.id, id })
+      .execute({ postId: post!.id, id })
       .then(({ addLike }: { addLike: boolean }) =>
         toggleLocalCommentLike!(id, addLike)
       );

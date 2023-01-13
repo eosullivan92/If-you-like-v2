@@ -1,6 +1,5 @@
-import React from 'react';
 import Comment from './Comment';
-import { CommentListProps } from '../../types/types';
+import { CommentListProps } from '../types/types';
 
 export default function CommentList(props: CommentListProps) {
   return (

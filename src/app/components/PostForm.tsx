@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { useState } from 'react';
-import { PostFormProps, PostFormType } from '../../types/types';
+import { PostFormProps, PostFormType } from '../types/types';
 
 export const PostForm = ({
   loading,
@@ -23,7 +24,7 @@ export const PostForm = ({
   };
 
   const handleClose = () => {
-    handleCreatePostActive();
+    handleCreatePostActive!();
     setPostInput({
       title: '',
       body: '',

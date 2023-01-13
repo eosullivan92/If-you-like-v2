@@ -1,4 +1,4 @@
-import { IconBtnProps } from '../../types/types';
+import { IconBtnProps } from '../types/types';
 
 export function IconBtn({
   Icon,

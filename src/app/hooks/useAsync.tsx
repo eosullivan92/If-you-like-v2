@@ -1,12 +1,16 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { useCallback, useEffect, useState } from 'react';
-import { CommentType, PostType, PostTitleType } from '../types/types';
 
-type DependenciesType = [id: string, posts?: PostTitleType[]] | [];
+type UseAsync<T, A extends unknown[], E = string> = {
+  value: T | undefined;
+  loading: boolean;
+  error: E | undefined;
+  execute: (...args: A) => Promise<T>;
+};
 
-export function useAsync(func: Function, dependencies: DependenciesType = []) {
+export function useAsync<T>(asyncFunc: () => Promise<T>) {
   // used in useEffect, execute runs immediately, reinvokes when dependencies change
-  const { execute, ...state } = useAsyncInternal(func, dependencies, true);
+  const { execute, ...state } = useAsyncInternal(asyncFunc);
 
   useEffect(() => {
     execute();
@@ -15,42 +19,38 @@ export function useAsync(func: Function, dependencies: DependenciesType = []) {
   return state;
 }
 
-export function useAsyncFn(
-  func: Function,
-  dependencies: DependenciesType = []
-) {
+export function useAsyncFn<T>(asyncFunc: () => Promise<T>) {
   //returns a function instead of running automatically
-  return useAsyncInternal(func, dependencies, false);
+  return useAsyncInternal(asyncFunc);
 }
 
-export function useAsyncInternal(
-  func: Function,
-  dependencies: DependenciesType,
-  initialLoading = false
-) {
-  const [loading, setLoading] = useState<boolean>(initialLoading);
-  const [error, setError] = useState<string>();
-  const [value, setValue] = useState<
-    PostType | PostType[] | PostTitleType[] | CommentType | undefined
-  >(undefined);
+export function useAsyncInternal<T, A extends unknown[], E = string>(
+  asyncFunc: (...args: A) => Promise<T>
+): UseAsync<T, A, E> {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<E | undefined>(undefined);
+  const [value, setValue] = useState<T | undefined>(undefined);
 
-  const execute = useCallback((...params) => {
-    setLoading(true);
-    return func(...params)
-      .then((data: PostType) => {
-        setValue(data);
-        setError(undefined);
-        return data;
-      })
-      .catch((error: string) => {
-        setValue(undefined);
-        setError(error);
-        return Promise.reject(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, dependencies);
+  const execute = useCallback(
+    (...args: A) => {
+      setLoading(true);
+      return asyncFunc(...args)
+        .then((data: T) => {
+          setValue(data);
+          setError(undefined);
+          return data;
+        })
+        .catch((error: E) => {
+          setValue(undefined);
+          setError(error);
+          return Promise.reject(error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    },
+    [asyncFunc]
+  );
 
   return { loading, error, value, execute };
 }

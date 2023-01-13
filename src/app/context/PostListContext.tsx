@@ -18,8 +18,8 @@ export function usePostList() {
 
 export function PostListProvider({ children }: ChildrenProps) {
   const [createPostActive, setCreatePostActive] = useState<boolean>(false);
-  const [posts, setPosts] = useState<PostListType>([]);
-  const { loading, error, value: postList } = useAsync(() => getPosts());
+  const [posts, setPosts] = useState<PostListType[]>([]);
+  const { loading, error, value: postList } = useAsync(getPosts);
 
   const handleCreatePostActive = () => {
     setCreatePostActive((prev) => !prev);

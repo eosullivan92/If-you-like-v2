@@ -10,14 +10,14 @@ export function getPost(id: string) {
 }
 
 export function createPost(post: PostFormType) {
-  return makeRequest('/posts', {
+  return makeRequest('posts', {
     method: 'POST',
     data: post,
   });
 }
 
 export function deletePost(id: string) {
-  return makeRequest(`/posts/${id}`, {
+  return makeRequest(`posts/${id}`, {
     method: 'DELETE',
   });
 }

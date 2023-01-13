@@ -78,7 +78,7 @@ export type CommentProps = {
 
 export type CommentFormProps = {
   loading: boolean;
-  error: string | undefined;
+  error: string | undefined | null;
   onSubmit: (message: string) => Promise<CommentType>;
   autoFocus: boolean;
   initialValue?: string;

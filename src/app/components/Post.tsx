@@ -1,56 +1,51 @@
-import { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { useNavigate, Link } from 'react-router-dom';
-import { createComment } from '../../api/comments';
-import { usePost } from '../../context/PostContext';
-import { useAsyncFn } from '../../hooks/useAsync';
+import { createComment } from '../api/comments';
+import { usePost } from '../context/PostContext';
+import { useAsync } from '../hooks/useAsync';
 import CommentList from './CommentList';
 import { CommentForm } from './CommentForm';
-import { deletePost, updatePost } from '../../api/posts';
+import { deletePost, updatePost } from '../api/posts';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { IconBtn } from './IconButton';
 import { PostForm } from './PostForm';
-import { usePostList } from '../../context/PostListContext';
-import { PostType } from '../../types/types';
+import { usePostList } from '../context/PostListContext';
+import { PostType } from '../types/types';
 
 export const Post = () => {
   const navigate = useNavigate();
   const { post, rootComments, createLocalComment } = usePost();
   const {
-    posts,
     deleteLocalPost,
     updateLocalPost,
     createPostActive,
     handleCreatePostActive,
   } = usePostList();
-  const {
-    loading,
-    error,
-    execute: createCommentFn,
-  } = useAsyncFn(createComment);
+  const { loading, error, execute: createCommentFn } = useAsync(createComment);
   const deletePostFn = useAsyncFn(deletePost);
   const updatePostFn = useAsyncFn(updatePost);
 
   const onCommentCreate = (message: string) => {
-    return createCommentFn({ postId: post.id, message }).then(
+    return createCommentFn({ postId: post?.id, message }).then(
       createLocalComment
     );
   };
 
   const onPostDelete = () => {
-    return deletePostFn.execute(post.id).then(({ id }: { id: string }) => {
-      deleteLocalPost(id);
+    return deletePostFn.execute(post?.id).then(({ id }: { id: string }) => {
+      deleteLocalPost!(id);
       navigate('/');
     });
   };
 
   const onPostUpdate = (title: string, body: string) => {
     return updatePostFn
-      .execute({ id: post.id, title, body })
+      .execute({ id: post?.id, title, body })
       .then((post: PostType) => {
-        updateLocalPost(post);
+        updateLocalPost!(post);
       })
       .then(() => {
-        handleCreatePostActive();
+        handleCreatePostActive!();
       });
   };
 
@@ -63,7 +58,7 @@ export const Post = () => {
         {createPostActive && (
           <PostForm
             loading={updatePostFn.loading}
-            error={updatePostFn.error}
+            error={updatePostFn.error!}
             onSubmit={onPostUpdate}
             autoFocus
             createPostActive={createPostActive}
@@ -72,8 +67,8 @@ export const Post = () => {
           />
         )}
         <div className="post-content">
-          <h1>{post.title}</h1>
-          <article>{post.body}</article>
+          <h1>{post?.title}</h1>
+          <article>{post?.body}</article>
         </div>
         <div className="footer">
           <IconBtn

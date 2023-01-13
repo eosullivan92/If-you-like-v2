@@ -4,7 +4,7 @@ import { IconBtn } from './IconButton';
 import { usePostList } from '../context/PostListContext';
 import { PostForm } from './PostForm';
 import { PostTitleType } from '../types/types';
-import { useAsyncFn } from '../hooks/useAsync';
+import { useAsync } from '../hooks/useAsync';
 import { createPost, togglePostLike } from '../api/posts';
 
 export const PostList = () => {
@@ -17,8 +17,8 @@ export const PostList = () => {
     handleCreatePostActive,
     toggleLocalPostLike,
   } = usePostList();
-  const createPostFn = useAsyncFn(createPost);
-  const togglePostLikeFn = useAsyncFn(togglePostLike);
+  const createPostFn = useAsync(createPost);
+  const togglePostLikeFn = useAsync(togglePostLike);
   if (loading) return <h1>Loading</h1>;
   if (error) return <h1 className="error">Error</h1>;
 
@@ -45,7 +45,7 @@ export const PostList = () => {
       <PostForm
         onSubmit={onPostCreate}
         loading={createPostFn.loading}
-        error={createPostFn.error}
+        error={createPostFn.error!}
         autoFocus
         createPostActive={createPostActive}
         handleCreatePostActive={handleCreatePostActive}

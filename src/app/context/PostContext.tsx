@@ -90,6 +90,7 @@ export function PostProvider({ children }: ChildrenProps) {
     });
   };
   useEffect(() => {
+    console.log(post);
     if (post?.comments == null) return;
     setComments(post.comments);
   }, [post?.comments]);
