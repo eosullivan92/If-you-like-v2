@@ -6,7 +6,6 @@ import {
   PostListContextType,
   PostType,
   PostTitleType,
-  PostListType,
   ChildrenProps,
 } from '../types/types';
 
@@ -18,7 +17,7 @@ export function usePostList() {
 
 export function PostListProvider({ children }: ChildrenProps) {
   const [createPostActive, setCreatePostActive] = useState<boolean>(false);
-  const [posts, setPosts] = useState<PostListType[]>([]);
+  const [posts, setPosts] = useState<PostTitleType[]>([]);
   const { loading, error, value: postList } = useAsync(getPosts);
 
   const handleCreatePostActive = () => {

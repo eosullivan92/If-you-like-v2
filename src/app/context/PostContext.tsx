@@ -1,9 +1,9 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useAsync } from '../hooks/useAsync';
 import { getPost } from '../api/posts';
 import { useContext, useMemo, useState, useEffect } from 'react';
-import { usePostList } from './PostListContext';
 import {
   PostContextType,
   CommentGroup,
@@ -23,8 +23,8 @@ export function usePost() {
 
 export function PostProvider({ children }: ChildrenProps) {
   const { id } = useParams<IdParams>();
-  const { posts } = usePostList();
-  const { value: post } = useAsync(() => getPost(id), [id, posts]);
+  //   const { posts } = usePostList();
+  const { value: post } = useAsync(() => getPost(id!));
   const [comments, setComments] = useState<CommentType[]>([]);
 
   //group comments by parent id

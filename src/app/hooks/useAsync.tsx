@@ -19,7 +19,9 @@ export function useAsync<T>(asyncFunc: () => Promise<T>) {
   return state;
 }
 
-export function useAsyncFn<T>(asyncFunc: () => Promise<T>) {
+export function useAsyncFn<T, A extends unknown[]>(
+  asyncFunc: (...params: A) => Promise<T>
+) {
   //returns a function instead of running automatically
   return useAsyncInternal(asyncFunc);
 }

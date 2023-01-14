@@ -2,7 +2,7 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { createComment } from '../api/comments';
 import { usePost } from '../context/PostContext';
-import { useAsync } from '../hooks/useAsync';
+import { useAsyncFn } from '../hooks/useAsync';
 import CommentList from './CommentList';
 import { CommentForm } from './CommentForm';
 import { deletePost, updatePost } from '../api/posts';
@@ -21,18 +21,22 @@ export const Post = () => {
     createPostActive,
     handleCreatePostActive,
   } = usePostList();
-  const { loading, error, execute: createCommentFn } = useAsync(createComment);
+  const {
+    loading,
+    error,
+    execute: createCommentFn,
+  } = useAsyncFn(createComment);
   const deletePostFn = useAsyncFn(deletePost);
   const updatePostFn = useAsyncFn(updatePost);
 
   const onCommentCreate = (message: string) => {
-    return createCommentFn({ postId: post?.id, message }).then(
+    return createCommentFn({ postId: post!.id, message }).then(
       createLocalComment
     );
   };
 
   const onPostDelete = () => {
-    return deletePostFn.execute(post?.id).then(({ id }: { id: string }) => {
+    return deletePostFn.execute(post!.id).then(({ id }: { id: string }) => {
       deleteLocalPost!(id);
       navigate('/');
     });
@@ -40,7 +44,7 @@ export const Post = () => {
 
   const onPostUpdate = (title: string, body: string) => {
     return updatePostFn
-      .execute({ id: post?.id, title, body })
+      .execute({ id: post!.id, title, body })
       .then((post: PostType) => {
         updateLocalPost!(post);
       })

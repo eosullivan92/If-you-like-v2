@@ -7,7 +7,7 @@ import { FaHeart, FaReply, FaEdit, FaTrash, FaRegHeart } from 'react-icons/fa';
 import { IconBtn } from './IconButton';
 import CommentList from './CommentList';
 // import { useUser } from '../hooks/useUser'
-import { useAsync, useAsyncFn } from '../hooks/useAsync';
+import { useAsyncFn } from '../hooks/useAsync';
 import {
   createComment,
   deleteComment,
@@ -43,8 +43,8 @@ export default function Comment({
   //   const currentUser = useUser();
   const createCommentFn = useAsyncFn(createComment);
   const updateCommentFn = useAsyncFn(updateComment);
-  const deleteCommentFn = useAsync(deleteComment);
-  const toggleCommentLikeFn = useAsync(toggleCommentLike);
+  const deleteCommentFn = useAsyncFn(deleteComment);
+  const toggleCommentLikeFn = useAsyncFn(toggleCommentLike);
 
   const onCommentReply = (message: string) => {
     return createCommentFn
