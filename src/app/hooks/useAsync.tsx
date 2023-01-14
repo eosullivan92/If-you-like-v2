@@ -33,26 +33,23 @@ export function useAsyncInternal<T, A extends unknown[], E = string>(
   const [error, setError] = useState<E | undefined>(undefined);
   const [value, setValue] = useState<T | undefined>(undefined);
 
-  const execute = useCallback(
-    (...args: A) => {
-      setLoading(true);
-      return asyncFunc(...args)
-        .then((data: T) => {
-          setValue(data);
-          setError(undefined);
-          return data;
-        })
-        .catch((error: E) => {
-          setValue(undefined);
-          setError(error);
-          return Promise.reject(error);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    },
-    [asyncFunc]
-  );
+  const execute = useCallback((...args: A) => {
+    setLoading(true);
+    return asyncFunc(...args)
+      .then((data: T) => {
+        setValue(data);
+        setError(undefined);
+        return data;
+      })
+      .catch((error: E) => {
+        setValue(undefined);
+        setError(error);
+        return Promise.reject(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
 
   return { loading, error, value, execute };
 }

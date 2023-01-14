@@ -23,7 +23,6 @@ export function usePost() {
 
 export function PostProvider({ children }: ChildrenProps) {
   const { id } = useParams<IdParams>();
-  //   const { posts } = usePostList();
   const { value: post } = useAsync(() => getPost(id!));
   const [comments, setComments] = useState<CommentType[]>([]);
 
