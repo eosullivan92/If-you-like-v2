@@ -1,0 +1,48 @@
+@use 'color'
+
+.comment
+
+	.header 
+		
+		.name
+			font-weight: 600
+
+		.date
+			margin-left: 0.5em
+
+	.footer
+		display: flex
+		
+
+.nested-comment-stack
+	display: flex
+
+
+	.collapse-line 
+		border: none
+		background: none
+		padding: 0
+		width: 15px
+		margin-top: 0.5rem
+		position: relative
+		cursor: pointer
+		outline: none
+		transform: translateX(-50%)
+	
+    .collapse-line::before 
+		content: ''
+		position: absolute
+		top: 0
+		bottom: 0
+		left: 50%
+		width: 1px
+		background-color: color.$primary-color-opaque
+		transition: background-color 100ms ease-in-out
+
+	.collapse-line:hover::before,
+	.collapse-line:focus-visible::before 
+		background-color: color.$primary-color-2
+
+
+	.nested-comments
+		width: 100%

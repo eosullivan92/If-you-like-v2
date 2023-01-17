@@ -29,13 +29,16 @@ export function PostProvider({ children }: ChildrenProps) {
   //group comments by parent id
   const commentsByParentId = useMemo(() => {
     // below is causing issues with getReplies function, as parentId can't be used as a key in an empty array
-    // if (comments == null) return []
+    // if (comments == null) return [];
     const group: CommentGroup = {};
     comments.forEach((comment) => {
       //assigns group[parentId] to [] if right side is falsy i.e. first of that parentId in loop
       if (comment.parentId) {
         group[comment.parentId] ||= [];
         group[comment.parentId].push(comment);
+      } else {
+        group['null'] ||= [];
+        group['null'].push(comment);
       }
     });
     return group;

@@ -1,0 +1,60 @@
+@use 'color'
+@use 'typography'
+    
+.post-form-modal
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+    border-radius: 5px
+    width: 400px
+    min-height: 450px
+    background-color: color.$light-bg-2
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 6px
+    padding: 1em
+
+    .modal-header
+        display: flex
+        justify-content: space-between
+
+        h2 
+            margin: 0
+            padding-bottom: 0.5em
+
+        button
+            background: none
+            border: none
+            color: inherit
+            font-size: 2rem
+            cursor: pointer
+    
+   
+    form 
+        display: flex
+        flex-direction: column
+        justify-content: space-between
+        gap: 1em
+        
+        .form-input-control
+            display: flex
+            flex-direction: column
+
+            input 
+                padding: 0.5em
+                border-radius: 3px
+                outline: none
+                border: 1px solid color.$primary-color-opaque
+
+            textarea
+                height: 200px
+                font-family: inherit
+                font-size: inherit
+                padding: 0.5em
+                border-radius: 3px
+                outline: none
+                border: none
+                resize: none
+                border: 1px solid color.$primary-color-opaque
+
+        button
+            padding: 0.5em

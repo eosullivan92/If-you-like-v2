@@ -66,7 +66,7 @@ export const PostList = () => {
                 {post?.likeCount}
               </IconBtn>
               <IconBtn Icon={FaRegCommentAlt} aria-label="comment count">
-                {post?.comments.length} comments
+                {post?.comments.length || 0} comments
               </IconBtn>
             </div>
           </div>

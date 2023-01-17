@@ -1,0 +1,61 @@
+@use 'typography'
+@use 'color'
+	
+*,
+*::before,
+*::after 
+	box-sizing: border-box
+
+
+body 
+	margin: 0
+	font: 100% typography.$font-main
+	line-height: 1.4
+	@include color.color-scheme(color.$scheme-default ...)
+
+.container 
+	max-width: 1000px
+	width: calc(100vw - 4rem)
+	margin: 2rem auto
+
+button 
+	font-size: inherit
+	font-family: inherit
+
+.error-msg 
+	color: hsl(0, 100%, 67%)
+
+
+.mt-4 
+	margin-top: 1rem
+
+
+.mt-1 
+	margin-top: 0.25rem
+
+.mr-1 
+	margin-right: 0.25em
+
+.ml-3 
+	margin-left: 1.5rem
+
+.btn 
+	padding: 0.5em 1em
+	background: color.$primary-color-2
+	border: none
+	color: white
+	border-radius: 0.5em
+	font-size: 0.75em
+	cursor: pointer
+
+.btn:hover,
+.btn:focus-visible 
+	color: color.$primary-color
+
+
+.hide 
+	display: none
+
+a 
+	text-decoration: none
+	color: inherit

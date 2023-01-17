@@ -1,0 +1,240 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;300;400;600;700;900&display=swap");
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font: 100% "Source Sans Pro", sans-serif;
+  line-height: 1.4;
+  background: hsl(45deg, 100%, 96%);
+  color: hsl(32deg, 100%, 40%);
+}
+
+.container {
+  max-width: 1000px;
+  width: calc(100vw - 4rem);
+  margin: 2rem auto;
+}
+
+button {
+  font-size: inherit;
+  font-family: inherit;
+}
+
+.error-msg {
+  color: hsl(0deg, 100%, 67%);
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
+.mr-1 {
+  margin-right: 0.25em;
+}
+
+.ml-3 {
+  margin-left: 1.5rem;
+}
+
+.btn {
+  padding: 0.5em 1em;
+  background: hsl(32deg, 100%, 40%);
+  border: none;
+  color: white;
+  border-radius: 0.5em;
+  font-size: 0.75em;
+  cursor: pointer;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  color: hsl(22deg, 78%, 55%);
+}
+
+.hide {
+  display: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.comment-form-row {
+  display: flex;
+  gap: 1rem;
+}
+.comment-form-row .message-input {
+  flex-grow: 1;
+  resize: none;
+  height: 70px;
+  border-radius: 0.5em;
+  padding: 0.5em;
+  font-size: inherit;
+  font-family: inherit;
+  border: 2px solid hsla(32deg, 100%, 40%, 0.6);
+  line-height: 1.4;
+}
+.comment-form-row button {
+  padding: 0 1rem;
+}
+
+.icon-btn {
+  background: none;
+  color: hsl(32deg, 100%, 40%);
+  padding: 0.25em;
+  display: flex;
+  align-items: center;
+}
+
+.comment .header .name {
+  font-weight: 600;
+}
+.comment .header .date {
+  margin-left: 0.5em;
+}
+.comment .footer {
+  display: flex;
+}
+
+.nested-comment-stack {
+  display: flex;
+}
+.nested-comment-stack .collapse-line {
+  border: none;
+  background: none;
+  padding: 0;
+  width: 15px;
+  margin-top: 0.5rem;
+  position: relative;
+  cursor: pointer;
+  outline: none;
+  transform: translateX(-50%);
+}
+.nested-comment-stack .collapse-line:hover::before,
+.nested-comment-stack .collapse-line:focus-visible::before {
+  background-color: hsl(32deg, 100%, 40%);
+}
+.nested-comment-stack .collapse-line::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background-color: hsla(32deg, 100%, 40%, 0.6);
+  transition: background-color 100ms ease-in-out;
+}
+.nested-comment-stack .nested-comments {
+  width: 100%;
+}
+
+.comment-stack {
+  margin: 0.5rem 0;
+}
+
+.comment-stack:last-child {
+  margin-bottom: 0;
+}
+
+.navbar {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding-bottom: 1em;
+}
+.navbar h1 {
+  margin: 0;
+  padding: 0;
+}
+
+.post-title {
+  border: 1px solid hsla(32deg, 100%, 40%, 0.6);
+  border-radius: 5px;
+  box-shadow: hsla(32deg, 100%, 40%, 0.3) 1.95px 1.95px 2.6px;
+  padding: 0.5em 1em;
+  margin-top: 1em;
+}
+.post-title h1 {
+  margin: 0;
+}
+.post-title .footer {
+  display: flex;
+  gap: 0.5em;
+}
+
+.post-form-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 5px;
+  width: 400px;
+  min-height: 450px;
+  background-color: hsl(45deg, 100%, 96%);
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 6px;
+  padding: 1em;
+}
+.post-form-modal .modal-header {
+  display: flex;
+  justify-content: space-between;
+}
+.post-form-modal .modal-header h2 {
+  margin: 0;
+  padding-bottom: 0.5em;
+}
+.post-form-modal .modal-header button {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.post-form-modal form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1em;
+}
+.post-form-modal form .form-input-control {
+  display: flex;
+  flex-direction: column;
+}
+.post-form-modal form .form-input-control input {
+  padding: 0.5em;
+  border-radius: 3px;
+  outline: none;
+  border: 1px solid hsla(32deg, 100%, 40%, 0.6);
+}
+.post-form-modal form .form-input-control textarea {
+  height: 200px;
+  font-family: inherit;
+  font-size: inherit;
+  padding: 0.5em;
+  border-radius: 3px;
+  outline: none;
+  border: none;
+  resize: none;
+  border: 1px solid hsla(32deg, 100%, 40%, 0.6);
+}
+.post-form-modal form button {
+  padding: 0.5em;
+}
+
+.post .footer {
+  margin-top: 1em;
+  display: flex;
+  gap: 0.3em;
+}
+
+/*# sourceMappingURL=output.css.map */

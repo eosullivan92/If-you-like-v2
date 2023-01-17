@@ -2,15 +2,13 @@ import dotenv from 'dotenv';
 import react from '@vitejs/plugin-react';
 import EnvironmentPlugin from 'vite-plugin-environment';
 dotenv.config();
-
 import { defineConfig } from 'vite';
-import reactRefresh from '@vitejs/plugin-react-refresh';
 
 const { PORT = 3001 } = process.env;
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), reactRefresh(), EnvironmentPlugin('all')],
+  plugins: [react(), EnvironmentPlugin('all')],
   server: {
     proxy: {
       '/api/': {
@@ -20,6 +18,7 @@ export default defineConfig({
         // rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
+    port: 3000,
   },
   build: {
     outDir: 'dist/app',
