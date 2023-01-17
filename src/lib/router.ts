@@ -1,12 +1,26 @@
 import express from 'express';
 import { PrismaClient } from '@prisma/client';
-import cookieParser from 'cookie-parser';
 
 const router = express.Router();
 
 const prisma = new PrismaClient();
 
-const defaultUserId: string | null = '0b9dfc48-0ce6-4828-8433-6387e19e881f';
+//FAKING AUTHENTICATION
+router.use(function (req, res, next) {
+  if (req.cookies.userId !== defaultUserId) {
+    req.cookies.userId = defaultUserId;
+    res.clearCookie('userId');
+    res.cookie('userId', defaultUserId);
+  }
+  next();
+});
+
+// Top level await is causing a TS error here, even though target/module is set to ESNEXT. If fixed, replace with await prisma user
+const defaultUserId = '0b9dfc48-0ce6-4828-8433-6387e19e881f';
+
+console.log(defaultUserId);
+
+console.log(defaultUserId);
 const COMMENT_SELECT_FIELDS = {
   id: true,
   message: true,
@@ -115,7 +129,11 @@ router.post('/posts', async (req, res) => {
   }
 
   const data = await prisma.post.create({
-    data: { title: req.body.title, body: req.body.body, userId: defaultUserId },
+    data: {
+      title: req.body.title,
+      body: req.body.body,
+      userId: req.cookies.userId,
+    },
     select: { id: true, title: true },
   });
 
@@ -147,5 +165,24 @@ router.delete('/posts/:id', async (req, res) => {
 });
 
 //UPDATE POST
+router.put('/posts:id', async (req, res) => {
+  if (req.body.body === '' || req.body.body === null) {
+    res.status(500).send({ Message: 'Error: Message is required' });
+  }
+
+  if (req.body.title === '' || req.body.title === null) {
+    res.status(500).send({ Message: 'Error: Title is required' });
+  }
+
+  //Auth check here when implemented
+
+  const data = await prisma.post.update({
+    where: { id: req.params.id },
+    data: { title: req.body.title, body: req.body.body },
+    select: { id: true, title: true, body: true },
+  });
+
+  res.json(data);
+});
 
 export default router;

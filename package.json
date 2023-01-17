@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "@prisma/client": "^4.8.1",
+    "@types/cookie-parser": "^1.4.3",
     "await-to-js": "^3.0.0",
     "axios": "^1.2.2",
     "cookie-parser": "^1.4.6",
