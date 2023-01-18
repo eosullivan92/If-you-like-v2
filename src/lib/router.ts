@@ -78,6 +78,7 @@ router.get('/posts/:id', async (req, res) => {
       select: {
         body: true,
         title: true,
+        user: true,
         comments: {
           orderBy: {
             createdAt: 'desc',

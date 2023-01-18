@@ -11,6 +11,7 @@ import { IconBtn } from './IconButton';
 import { PostForm } from './PostForm';
 import { usePostList } from '../context/PostListContext';
 import { PostType } from '../types/types';
+import { useUser } from '../hooks/useUser';
 
 export const Post = () => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ export const Post = () => {
     error,
     execute: createCommentFn,
   } = useAsyncFn(createComment);
+  const currentUser = useUser();
   const deletePostFn = useAsyncFn(deletePost);
   const updatePostFn = useAsyncFn(updatePost);
 
@@ -49,7 +51,6 @@ export const Post = () => {
         updateLocalPost!(post);
       });
   };
-
   return (
     <>
       <div className="post">
@@ -71,18 +72,23 @@ export const Post = () => {
           <h1>{post?.title}</h1>
           <article>{post?.body}</article>
         </div>
+
         <div className="footer">
-          <IconBtn
-            Icon={FaEdit}
-            aria-label="edit"
-            onClick={handleCreatePostActive}
-          />
-          <IconBtn
-            Icon={FaTrash}
-            aria-label="delete"
-            onClick={onPostDelete}
-            color="danger"
-          />
+          {post?.user?.id === currentUser.id && (
+            <>
+              <IconBtn
+                Icon={FaEdit}
+                aria-label="edit"
+                onClick={handleCreatePostActive}
+              />
+              <IconBtn
+                Icon={FaTrash}
+                aria-label="delete"
+                onClick={onPostDelete}
+                color="danger"
+              />
+            </>
+          )}
         </div>
         <h3 className="comments-title">Comments:</h3>
 

@@ -14,6 +14,7 @@ import {
   toggleCommentLike,
   updateComment,
 } from '../api/comments';
+import { useUser } from '../hooks/useUser';
 
 const dateFormatter = new Intl.DateTimeFormat(undefined, {
   dateStyle: 'medium',
@@ -40,7 +41,7 @@ export default function Comment({
     toggleLocalCommentLike,
   } = usePost();
   const childComments = getReplies!(id);
-  //   const currentUser = useUser();
+  const currentUser = useUser();
   const createCommentFn = useAsyncFn(createComment);
   const updateCommentFn = useAsyncFn(updateComment);
   const deleteCommentFn = useAsyncFn(deleteComment);
@@ -121,22 +122,22 @@ export default function Comment({
             onClick={() => setIsReplying((prev) => !prev)}
             isActive={isReplying}
           />
-          {/* {user.id === currentUser.id && ( */}
-          <>
-            <IconBtn
-              Icon={FaEdit}
-              aria-label="edit"
-              onClick={() => setIsEditingComment((prev) => !prev)}
-              isActive={isEditingComment}
-            />
-            <IconBtn
-              Icon={FaTrash}
-              aria-label="delete"
-              onClick={onCommentDelete}
-              color="danger"
-            />
-          </>
-          {/* )} */}
+          {user.id === currentUser.id && (
+            <>
+              <IconBtn
+                Icon={FaEdit}
+                aria-label="edit"
+                onClick={() => setIsEditingComment((prev) => !prev)}
+                isActive={isEditingComment}
+              />
+              <IconBtn
+                Icon={FaTrash}
+                aria-label="delete"
+                onClick={onCommentDelete}
+                color="danger"
+              />
+            </>
+          )}
           {deleteCommentFn.error && (
             <div className="error-msg mt-1">{deleteCommentFn.error}</div>
           )}
