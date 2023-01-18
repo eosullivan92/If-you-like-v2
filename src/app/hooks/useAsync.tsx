@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { useCallback, useEffect, useState } from 'react';
+import { PostTitleType } from '../types/types';
 
 type UseAsync<T, A extends unknown[], E = string> = {
   value: T | undefined;
@@ -8,9 +9,14 @@ type UseAsync<T, A extends unknown[], E = string> = {
   execute: (...args: A) => Promise<T>;
 };
 
-export function useAsync<T>(asyncFunc: () => Promise<T>) {
+type DependenciesType = PostTitleType[] | [];
+
+export function useAsync<T>(
+  asyncFunc: () => Promise<T>,
+  dependencies: DependenciesType = []
+) {
   // used in useEffect, execute runs immediately, reinvokes when dependencies change
-  const { execute, ...state } = useAsyncInternal(asyncFunc);
+  const { execute, ...state } = useAsyncInternal(asyncFunc, dependencies);
 
   useEffect(() => {
     execute();
@@ -20,14 +26,16 @@ export function useAsync<T>(asyncFunc: () => Promise<T>) {
 }
 
 export function useAsyncFn<T, A extends unknown[]>(
-  asyncFunc: (...params: A) => Promise<T>
+  asyncFunc: (...params: A) => Promise<T>,
+  dependencies: DependenciesType = []
 ) {
   //returns a function instead of running automatically
-  return useAsyncInternal(asyncFunc);
+  return useAsyncInternal(asyncFunc, dependencies);
 }
 
 export function useAsyncInternal<T, A extends unknown[], E = string>(
-  asyncFunc: (...args: A) => Promise<T>
+  asyncFunc: (...args: A) => Promise<T>,
+  dependencies: DependenciesType = []
 ): UseAsync<T, A, E> {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<E | undefined>(undefined);
@@ -49,7 +57,7 @@ export function useAsyncInternal<T, A extends unknown[], E = string>(
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  }, dependencies);
 
   return { loading, error, value, execute };
 }

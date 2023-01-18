@@ -49,6 +49,7 @@ export const Post = () => {
         updateLocalPost!(post);
       })
       .then(() => {
+        console.log(post);
         handleCreatePostActive!();
       });
   };

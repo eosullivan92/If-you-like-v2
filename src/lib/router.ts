@@ -18,9 +18,6 @@ router.use(function (req, res, next) {
 // Top level await is causing a TS error here, even though target/module is set to ESNEXT. If fixed, replace with await prisma user
 const defaultUserId = '0b9dfc48-0ce6-4828-8433-6387e19e881f';
 
-console.log(defaultUserId);
-
-console.log(defaultUserId);
 const COMMENT_SELECT_FIELDS = {
   id: true,
   message: true,
@@ -142,19 +139,16 @@ router.post('/posts', async (req, res) => {
 
 //DELETE POST
 router.delete('/posts/:id', async (req, res) => {
-  //   const { userId } =
-  //     (await prisma.post.findUnique({
-  //       where: { id: req.params.id },
-  //       select: { userId: true },
-  //     })) || defaultUserId;
-  //   // auth check
-  //   if (userId !== req.cookies.userId) {
-  //     return res.send(
-  //       res
-  //         .status(500)
-  //         .send({ message: 'You do not have permission to delete this post' })
-  //     );
-  //   }
+  const userId = await prisma.post.findUnique({
+    where: { id: req.params.id },
+    select: { userId: true },
+  });
+  // auth check
+  if (userId?.userId !== req.cookies.userId) {
+    return res
+      .status(500)
+      .send({ message: 'You do not have permission to delete this post' });
+  }
 
   const data = await prisma.post.delete({
     where: { id: req.params.id },
@@ -165,7 +159,7 @@ router.delete('/posts/:id', async (req, res) => {
 });
 
 //UPDATE POST
-router.put('/posts:id', async (req, res) => {
+router.put('/posts/:id', async (req, res) => {
   if (req.body.body === '' || req.body.body === null) {
     res.status(500).send({ Message: 'Error: Message is required' });
   }
@@ -174,7 +168,16 @@ router.put('/posts:id', async (req, res) => {
     res.status(500).send({ Message: 'Error: Title is required' });
   }
 
-  //Auth check here when implemented
+  const userId = await prisma.post.findUnique({
+    where: { id: req.params.id },
+    select: { userId: true },
+  });
+
+  if (userId?.userId !== req.cookies.userId) {
+    return res
+      .status(500)
+      .send({ message: 'You do not have permission to edit this post' });
+  }
 
   const data = await prisma.post.update({
     where: { id: req.params.id },

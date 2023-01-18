@@ -43,6 +43,7 @@ export function PostListProvider({ children }: ChildrenProps) {
           return {
             ...post,
             title: updatedPost.title,
+            body: updatedPost.body,
           };
         } else {
           return post;

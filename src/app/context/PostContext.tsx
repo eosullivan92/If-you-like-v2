@@ -10,6 +10,7 @@ import {
   CommentType,
   ChildrenProps,
 } from '../types/types';
+import { usePostList } from './PostListContext';
 
 type IdParams = {
   id: string;
@@ -23,7 +24,8 @@ export function usePost() {
 
 export function PostProvider({ children }: ChildrenProps) {
   const { id } = useParams<IdParams>();
-  const { value: post } = useAsync(() => getPost(id!));
+  const { posts } = usePostList();
+  const { value: post } = useAsync(() => getPost(id!), [id, posts]);
   const [comments, setComments] = useState<CommentType[]>([]);
 
   //group comments by parent id
@@ -91,8 +93,8 @@ export function PostProvider({ children }: ChildrenProps) {
       });
     });
   };
+
   useEffect(() => {
-    console.log(post);
     if (post?.comments == null) return;
     setComments(post.comments);
   }, [post?.comments]);

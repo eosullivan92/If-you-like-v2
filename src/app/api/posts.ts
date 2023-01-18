@@ -23,7 +23,7 @@ export function deletePost(id: string) {
 }
 
 export function updatePost({ id, title, body }: PostType) {
-  return makeRequest(`/posts/${id}`, {
+  return makeRequest(`posts/${id}`, {
     method: 'PUT',
     data: { title, body },
   });
