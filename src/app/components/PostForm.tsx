@@ -20,6 +20,7 @@ export const PostForm = ({
         title: '',
         body: '',
       });
+      handleCreatePostActive!();
     });
   };
 

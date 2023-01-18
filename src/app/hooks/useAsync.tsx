@@ -9,7 +9,7 @@ type UseAsync<T, A extends unknown[], E = string> = {
   execute: (...args: A) => Promise<T>;
 };
 
-type DependenciesType = PostTitleType[] | [];
+type DependenciesType = PostTitleType[][] | [];
 
 export function useAsync<T>(
   asyncFunc: () => Promise<T>,

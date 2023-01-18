@@ -188,4 +188,135 @@ router.put('/posts/:id', async (req, res) => {
   res.json(data);
 });
 
+// TOGGLE POST LIKE
+router.post('/posts/:id/toggleLike', async (req, res) => {
+  const data = {
+    postId: req.params.id,
+    userId: req.cookies.userId,
+  };
+
+  const like = await prisma.postLike.findUnique({
+    where: { userId_postId: data },
+  });
+
+  if (like == null) {
+    return await prisma.postLike.create({ data }).then(() => {
+      res.json({ addLike: true });
+    });
+  } else {
+    return await prisma.postLike
+      .delete({
+        where: { userId_postId: data },
+      })
+      .then(() => {
+        res.json({ addLike: false });
+      });
+  }
+});
+
+//CREATE COMMENT
+router.post('/posts/:id/comments', async (req, res) => {
+  //error
+  if (req.body.message === '' || req.body.message === null) {
+    res.status(500).send({ message: 'Error: Message is required' });
+  }
+
+  const data = await prisma.comment
+    .create({
+      data: {
+        message: req.body.message,
+        userId: req.cookies.userId,
+        parentId: req.body.parentId,
+        postId: req.params.id,
+      },
+      select: COMMENT_SELECT_FIELDS,
+    })
+    .then((comment) => {
+      return {
+        // brand new comment has no likes
+        ...comment,
+        likeCount: 0,
+        likedByMe: false,
+      };
+    });
+
+  res.json(data);
+});
+
+//UPDATE COMMENT
+router.put('/posts/:id/comments/:commentId', async (req, res) => {
+  //error check
+  if (req.body.message === '' || req.body.message === null) {
+    res.status(500).send({ message: 'Error: Message is required' });
+  }
+
+  const userId = await prisma.comment.findUnique({
+    where: { id: req.params.commentId },
+    select: { userId: true },
+  });
+
+  // auth check
+  if (userId?.userId !== req.cookies.userId) {
+    return res
+      .status(500)
+      .send({ message: 'You do not have permission to edit this comment' });
+  }
+
+  const data = await prisma.comment.update({
+    where: { id: req.params.commentId },
+    data: { message: req.body.message },
+    select: { message: true },
+  });
+
+  res.json(data);
+});
+
+//DELETE COMMENT
+router.delete('/posts/:id/comments/:commentId', async (req, res) => {
+  const userId = await prisma.comment.findUnique({
+    where: { id: req.params.commentId },
+    select: { userId: true },
+  });
+
+  // auth check
+  if (userId?.userId !== req.cookies.userId) {
+    return res
+      .status(500)
+      .send({ message: 'You do not have permission to delete this comment' });
+  }
+
+  const data = await prisma.comment.delete({
+    where: { id: req.params.commentId },
+    select: { id: true },
+  });
+
+  res.json(data);
+});
+
+//TOGGLE COMMENT LIKE
+router.post('/posts/:id/comments/:commentId/toggleLike', async (req, res) => {
+  const data = {
+    commentId: req.params.commentId,
+    userId: req.cookies.userId,
+  };
+
+  const like = await prisma.commentLike.findUnique({
+    where: { userId_commentId: data },
+  });
+
+  if (like == null) {
+    return await prisma.commentLike.create({ data }).then(() => {
+      res.json({ addLike: true });
+    });
+  } else {
+    return await prisma.commentLike
+      .delete({
+        where: { userId_commentId: data },
+      })
+      .then(() => {
+        res.json({ addLike: false });
+      });
+  }
+});
+
 export default router;

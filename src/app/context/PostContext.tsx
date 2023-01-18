@@ -25,7 +25,7 @@ export function usePost() {
 export function PostProvider({ children }: ChildrenProps) {
   const { id } = useParams<IdParams>();
   const { posts } = usePostList();
-  const { value: post } = useAsync(() => getPost(id!), [id, posts]);
+  const { value: post } = useAsync(() => getPost(id!), [posts!]);
   const [comments, setComments] = useState<CommentType[]>([]);
 
   //group comments by parent id

@@ -47,10 +47,6 @@ export const Post = () => {
       .execute({ id: post!.id, title, body })
       .then((post: PostType) => {
         updateLocalPost!(post);
-      })
-      .then(() => {
-        console.log(post);
-        handleCreatePostActive!();
       });
   };
 
