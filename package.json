@@ -1,11 +1,12 @@
 {
   "name": "vite-boilerplate",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
     "client:dev": "vite",
     "server:dev": "ts-node-dev --project tsconfig.server.json src/server",
-    "server:build": "tsc --project tsconfig.server.json",
+    "server:build": "npx prisma generate && tsc --project tsconfig.server.json && npx prisma migrate deploy && npx prisma db seed",
     "client:build": "vite build",
     "build": "npm run server:build && npm run client:build",
     "serve": "vite preview",
@@ -15,7 +16,7 @@
     "sass": "sass src/app/styles/main.sass src/app/public/output.css"
   },
   "prisma": {
-    "seed": "ts-node --transpile-only seed.ts"
+    "seed": "ts-node --transpile-only prisma/seed.ts"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
@@ -35,7 +36,7 @@
     "husky": "^7.0.4",
     "lint-staged": "^11.2.4",
     "prettier": "2.4.1",
-    "prisma": "^4.8.1",
+    "prisma": "^4.7.1",
     "stylelint": "^14.0.0",
     "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^23.0.0",
@@ -45,7 +46,7 @@
     "vite-plugin-environment": "^1.1.3"
   },
   "dependencies": {
-    "@prisma/client": "^4.8.1",
+    "@prisma/client": "^4.7.1",
     "@types/cookie-parser": "^1.4.3",
     "await-to-js": "^3.0.0",
     "axios": "^1.2.2",

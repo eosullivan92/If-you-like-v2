@@ -77,13 +77,13 @@ export function PostProvider({ children }: ChildrenProps) {
           if (addLike) {
             return {
               ...comment,
-              likeCount: comment.likeCount + 1,
+              likeCount: comment.likeCount! + 1,
               likedByMe: true,
             };
           } else {
             return {
               ...comment,
-              likeCount: comment.likeCount - 1,
+              likeCount: comment.likeCount! - 1,
               likedByMe: false,
             };
           }

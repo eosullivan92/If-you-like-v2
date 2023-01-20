@@ -18,7 +18,7 @@ model Post {
     createdAt DateTime   @default(now())
     updatedAt DateTime   @default(now()) @updatedAt
     comments  Comment[]
-    user      User?      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId    String
     likes     PostLike[]
 }

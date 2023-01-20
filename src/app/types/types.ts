@@ -35,8 +35,9 @@ export type PostTitleType = {
   id: string;
   title: string;
   comments: Comment[];
-  likeCount: number;
-  likedByMe: boolean;
+  _count?: number;
+  likeCount?: number;
+  likedByMe?: boolean;
 };
 
 export type PostFormType = {
@@ -46,6 +47,13 @@ export type PostFormType = {
 
 export type PostListType = PostTitleType[] | undefined;
 
+export type PostLikeType = {
+  user: User;
+  Post: PostType;
+  userId: string;
+  postId: string;
+};
+
 //COMMENT TYPES
 export type CommentType = {
   id: string;
@@ -53,12 +61,19 @@ export type CommentType = {
   parentId?: string;
   createdAt: string;
   user: User;
-  likeCount: number;
-  likedByMe: boolean;
+  likeCount?: number;
+  likedByMe?: boolean;
 };
 
 export type CommentGroup = {
   [key: string]: CommentType[];
+};
+
+export type CommentLikeType = {
+  user: User;
+  Comment: CommentType;
+  userId: string;
+  postId: string;
 };
 
 // USER
@@ -73,8 +88,8 @@ export type CommentProps = {
   message: string;
   user: User;
   createdAt: string;
-  likeCount: number;
-  likedByMe: boolean;
+  likeCount?: number;
+  likedByMe?: boolean;
 };
 
 export type CommentFormProps = {
