@@ -1,7 +1,6 @@
 {
   "name": "vite-boilerplate",
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
     "client:dev": "vite",
@@ -16,7 +15,7 @@
     "sass": "sass src/app/styles/main.sass src/app/public/output.css"
   },
   "prisma": {
-    "seed": "ts-node --transpile-only prisma/seed.ts"
+    "seed": "ts-node --transpile-only --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
