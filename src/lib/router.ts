@@ -20,7 +20,7 @@ router.use(function (req, res, next) {
 });
 
 // Top level await is causing a TS error here, even though target/module is set to ESNEXT. If fixed, replace with await prisma user
-const defaultUserId = '0b9dfc48-0ce6-4828-8433-6387e19e881f';
+const defaultUserId = '6916a93e-97c7-403c-942a-f028b3b58806';
 
 const COMMENT_SELECT_FIELDS = {
   id: true,
@@ -126,7 +126,7 @@ router.get('/posts/:id', async (req: Request, res: Response) => {
     .then(async (post: PostWithComments) => {
       const userLikes = await prisma.commentLike.findMany({
         where: {
-          userId: req.cookies.userId || defaultUserId,
+          userId: req.cookies.userId,
           //returns id's of all comments
           commentId: {
             in: post?.comments.map((comment: CommentsWithLikes) => comment.id),

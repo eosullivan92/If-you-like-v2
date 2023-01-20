@@ -5,7 +5,7 @@
     "dev": "concurrently \"npm run server:dev\" \"npm run client:dev\"",
     "client:dev": "vite",
     "server:dev": "ts-node-dev --project tsconfig.server.json src/server",
-    "server:build": "npx prisma generate && tsc --project tsconfig.server.json && npx prisma migrate deploy && npx prisma db seed",
+    "server:build": "npx prisma generate && tsc --project tsconfig.server.json && npx prisma migrate deploy",
     "client:build": "vite build",
     "build": "npm run server:build && npm run client:build",
     "serve": "vite preview",
