@@ -30,6 +30,7 @@ export const Post = () => {
   const currentUser = useUser();
   const deletePostFn = useAsyncFn(deletePost);
   const updatePostFn = useAsyncFn(updatePost);
+  console.log(currentUser);
 
   const onCommentCreate = (message: string) => {
     return createCommentFn({ postId: post!.id, message }).then(
@@ -51,6 +52,7 @@ export const Post = () => {
         updateLocalPost!(post);
       });
   };
+
   return (
     <>
       <div className="post">
@@ -74,7 +76,7 @@ export const Post = () => {
         </div>
 
         <div className="footer">
-          {post?.user?.id === currentUser.id && (
+          {post.user?.id === currentUser && (
             <>
               <IconBtn
                 Icon={FaEdit}

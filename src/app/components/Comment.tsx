@@ -122,7 +122,7 @@ export default function Comment({
             onClick={() => setIsReplying((prev) => !prev)}
             isActive={isReplying}
           />
-          {user.id === currentUser.id && (
+          {user.id === currentUser && (
             <>
               <IconBtn
                 Icon={FaEdit}
