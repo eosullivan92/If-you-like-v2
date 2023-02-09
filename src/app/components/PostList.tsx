@@ -6,8 +6,10 @@ import { PostForm } from './PostForm';
 import { PostTitleType } from '../types/types';
 import { useAsyncFn } from '../hooks/useAsync';
 import { createPost, togglePostLike } from '../api/posts';
+import { useNavigate } from 'react-router';
 
 export const PostList = () => {
+  const navigate = useNavigate();
   const {
     loading,
     error,
@@ -37,6 +39,10 @@ export const PostList = () => {
       });
   };
 
+  const handleNavigate = (id: string) => {
+    navigate(`/posts/${id}`);
+  };
+
   return (
     <>
       <button className="btn" onClick={handleCreatePostActive}>
@@ -52,7 +58,11 @@ export const PostList = () => {
       />
       {posts?.map((post: PostTitleType) => {
         return (
-          <div className="post-title" key={post.id}>
+          <div
+            className="post-title"
+            key={post.id}
+            onClick={() => handleNavigate(post.id)}
+          >
             <h1>
               <a href={`/posts/${post.id}`}>{post.title}</a>
             </h1>

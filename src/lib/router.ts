@@ -20,7 +20,7 @@ router.use(function (req, res, next) {
 });
 
 // Top level await is causing a TS error here, even though target/module is set to ESNEXT. If fixed, replace with await prisma user
-const defaultUserId = '6916a93e-97c7-403c-942a-f028b3b58806';
+const defaultUserId = '7c1617e9-30a1-4d27-91b4-8e71df2989e1';
 
 const COMMENT_SELECT_FIELDS = {
   id: true,

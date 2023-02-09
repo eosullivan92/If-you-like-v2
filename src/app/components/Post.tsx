@@ -30,7 +30,6 @@ export const Post = () => {
   const currentUser = useUser();
   const deletePostFn = useAsyncFn(deletePost);
   const updatePostFn = useAsyncFn(updatePost);
-  console.log(currentUser);
 
   const onCommentCreate = (message: string) => {
     return createCommentFn({ postId: post!.id, message }).then(
